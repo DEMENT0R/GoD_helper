@@ -1,1 +1,2 @@
-# GoD_helper
+# GoD helper
+Auto trade etc
