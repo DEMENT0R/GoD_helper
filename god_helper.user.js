@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.31
+// @version      0.32
 // @description  try to take over the world!
 // @icon         https://galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -10,7 +10,8 @@
 // @require      https://raw.githubusercontent.com/Krinkle/jquery-json/master/dist/jquery.json.min.js
 // @require      https://raw.githubusercontent.com/carhartl/jquery-cookie/master/src/jquery.cookie.js
 // @require      https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js
-// @update       https://github.com/DEMENT0R/GoD_helper/raw/master/god_helper.user.js
+// @downloadURL  https://github.com/DEMENT0R/GoD_helper/raw/master/god_helper.user.js
+// @updateURL    https://github.com/DEMENT0R/GoD_helper/raw/master/god_helper.user.js
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_listValues
