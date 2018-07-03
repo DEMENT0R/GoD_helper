@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.32
+// @version      0.33
 // @description  try to take over the world!
 // @icon         https://galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -61,8 +61,8 @@
         var i = 0;
         setInterval(function(){
             requestSendGet ("https://galaxyofdrones.com/api/planet");
-            if (mineral_quantity[3] > 10){
-                tradeMinerals (134140, 10, 4);
+            if (mineral_quantity[3] > 100){
+                tradeMinerals (134140, 100, 4);
             }
         },1000);
     }
