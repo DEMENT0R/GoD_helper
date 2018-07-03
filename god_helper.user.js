@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.2
+// @version      0.31
 // @description  try to take over the world!
 // @icon         https://galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -28,6 +28,7 @@
     var building = 0;
     var quantity = 0;
     var mineral = 1;
+    var mineral_quantity = [0, 0, 0, 0, 0, 0, 0];
     var request_data;
     var raw_data;
     var request_url = "https://galaxyofdrones.com/";
@@ -35,9 +36,6 @@
     //console.log("request_url = " + request_url);
 
     insertControlPanel ();
-
-    requestSendGet ("https://galaxyofdrones.com/api/planet");
-
     startTimer ();
 
     function insertControlPanel (){
@@ -60,13 +58,17 @@
     function startTimer (){
         var i = 0;
         setInterval(function(){
-            tradeMinerals (134140, 100, 4);
+            requestSendGet ("https://galaxyofdrones.com/api/planet");
+            if (mineral_quantity[3] > 10){
+                tradeMinerals (134140, 10, 4);
+            }
         },1000);
     }
 
     function test (){
-        alert(planet);
-        alert(incoming);
+        //alert(planet);
+        //alert(incoming);
+        alert(mineral_quantity[3]);
     }
 
     //Transmute minerals
@@ -141,7 +143,8 @@
             success:  function(data) {
                 planet = data.id;
                 incoming = data.incoming;
-                alert(data.resources[3].quantity);
+                mineral_quantity[3] = data.resources[3].quantity;
+                //alert(data.resources[3].quantity);
 
                 //alert(data.test);
                 //alert(data.toSource());
