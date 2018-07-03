@@ -10,6 +10,7 @@
 // @require      https://raw.githubusercontent.com/Krinkle/jquery-json/master/dist/jquery.json.min.js
 // @require      https://raw.githubusercontent.com/carhartl/jquery-cookie/master/src/jquery.cookie.js
 // @require      https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js
+// @update       https://github.com/DEMENT0R/GoD_helper/raw/master/god_helper.user.js
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_listValues
