@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.34
+// @version      0.35
 // @description  GoD helper
 // @icon         https://galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -30,7 +30,9 @@
     var building = 0;
     var quantity = 0;
     var mineral = 1;
-    var mineral_quantity = [0, 0, 0, 0, 0, 0, 0];
+    var mineral_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
+    var drones_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
+    var drones_storage_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var request_data;
     var raw_data;
     var request_url = "https://galaxyofdrones.com/";
@@ -39,6 +41,7 @@
 
     insertControlPanel ();
     startTimer ();
+    requestSendGet ("https://galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
         $('.sidebar-nav').append('<center>'+
@@ -76,6 +79,9 @@
                 buyDrones (134142, 1, 2);
                 buyDrones (134141, 1, 2);
 
+                sendScouts (11257, drones_quantity[1]);
+                sendScouts (6340, drones_storage_quantity[1]);
+
                 minuter = 0;
             }
             if (reseter > 3600) {
@@ -85,10 +91,18 @@
     }
 
     function test (){
-        //alert(planet);
-        //alert(incoming);
-        //alert(mineral_quantity[3]);
+        buyDrones (134148, 1, 2);
+        buyDrones (134147, 1, 2);
+        buyDrones (134146, 1, 2);
         buyDrones (134142, 1, 2);
+        buyDrones (134141, 1, 2);
+    }
+
+    function sendScouts (planet, quantity){
+        //https://galaxyofdrones.com/api/movement/scout/949
+        request_data = $.toJSON({"quantity":quantity});
+        request_url = "https://galaxyofdrones.com/api/movement/scout/" + planet;
+        requestSendPost (request_url, request_data);
     }
 
     function buyDrones (building, quantity, drone_id){
@@ -172,7 +186,10 @@
                 planet = data.id;
                 incoming = data.incoming;
                 mineral_quantity[3] = data.resources[3].quantity;
+                drones_quantity[1] = data.units[1].quantity;
+                drones_storage_quantity[1] = data.units[1].quantity;
                 //alert(data.resources[3].quantity);
+                //alert(data.units[1].quantity);
 
                 //alert(data.test);
                 //alert(data.toSource());
