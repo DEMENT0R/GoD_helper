@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.33
-// @description  try to take over the world!
+// @version      0.34
+// @description  GoD helper
 // @icon         https://galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
 // @match        https://galaxyofdrones.com/*
@@ -58,11 +58,28 @@
     }
 
     function startTimer (){
-        var i = 0;
+        var minuter = 0;
+        var reseter = 0;
         setInterval(function(){
-            requestSendGet ("https://galaxyofdrones.com/api/planet");
-            if (mineral_quantity[3] > 100){
-                tradeMinerals (134140, 100, 4);
+            minuter++;
+            reseter++;
+            if (minuter > 60) {
+                requestSendGet ("https://galaxyofdrones.com/api/planet");
+                if (mineral_quantity[3] > 100){
+                    tradeMinerals (134140, 100, 4);
+                    mineral_quantity[3] = 0;
+                }
+
+                buyDrones (134148, 1, 2);
+                buyDrones (134147, 1, 2);
+                buyDrones (134146, 1, 2);
+                buyDrones (134142, 1, 2);
+                buyDrones (134141, 1, 2);
+
+                minuter = 0;
+            }
+            if (reseter > 3600) {
+                location.reload(true);
             }
         },1000);
     }
@@ -70,8 +87,17 @@
     function test (){
         //alert(planet);
         //alert(incoming);
-        alert(mineral_quantity[3]);
+        //alert(mineral_quantity[3]);
+        buyDrones (134142, 1, 2);
     }
+
+    function buyDrones (building, quantity, drone_id){
+        //https://galaxyofdrones.com/api/trainer/134148/2
+        request_data = $.toJSON({"quantity":quantity});
+        request_url = "https://galaxyofdrones.com/api/trainer/" + building +"/" + drone_id;
+        requestSendPost (request_url, request_data);
+    }
+
 
     //Transmute minerals
     //building_id: 3
