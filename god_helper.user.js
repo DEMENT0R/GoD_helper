@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.37
+// @version      0.38
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -56,7 +56,7 @@
             transmuteMinerals (134150, 10, 4);
         });
         $(".trade").click(function() {
-            tradeMinerals (134140, 10, 4);
+            tradeMinerals (134140, 100, 4);
         });
     }
 
@@ -73,14 +73,14 @@
                     mineral_quantity[3] = 0;
                 }
 
+                buyDrones (134142, 1, 2);
+                buyDrones (134141, 1, 2);
                 buyDrones (134148, 1, 2);
                 buyDrones (134147, 1, 2);
                 buyDrones (134146, 1, 2);
-                buyDrones (134142, 1, 2);
-                buyDrones (134141, 1, 2);
 
-                sendScouts (11257, drones_quantity[1]);
-                sendScouts (6340, drones_storage_quantity[1]);
+                //sendScouts (11257, drones_quantity[1]);
+                //sendScouts (6340, drones_storage_quantity[1]);
 
                 minuter = 0;
             }
@@ -147,7 +147,7 @@
                 request_data = $.toJSON({"quantity":{7: quantity}});
                 break;
             default:
-                alert( 'Я таких значений не знаю' );
+                alert( 'Таких значений минералов не знаю' );
         }
         request_url = "https://play.galaxyofdrones.com/api/movement/trade/" + building;
         requestSendPost (request_url, request_data);
