@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41
+// @version      0.41.01
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -87,7 +87,9 @@
                 buyDrones (134147, 1, 2);
                 buyDrones (134146, 1, 2);
 
+                sendScouts (949, drones_quantity[1]);
                 //sendScouts (11257, drones_quantity[1]);
+                sendScouts (14344, drones_storage_quantity[1]);
                 //sendScouts (6340, drones_storage_quantity[1]);
 
                 minuter = 0;
