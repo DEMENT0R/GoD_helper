@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.06
+// @version      0.41.07
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -44,9 +44,9 @@
     requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
-        $('.player').append('<center><div class="player-energy" style="top: 182px;">'+
-                                 '<a class="btn btn-default trade" href="#" title="Trade minerals">Sell</a>'+
-                                 '<a class="btn btn-default train" href="#" title="Train scouts">Scouts</a>'+
+        $('.player').append('<center><div class="player-energy" style="top: 142px;">'+
+                                 '<a class="btn trade" href="#" title="Trade minerals">Sell</a> | '+
+                                 '<a class="btn train" href="#" title="Train scouts">Scouts</a>'+
                             '</div></center>');
         $(".transmute").click(function() {
             transmuteMinerals (134150, 10, 4);
