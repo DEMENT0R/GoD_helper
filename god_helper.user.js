@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.04
+// @version      0.41.05
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
