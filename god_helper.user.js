@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.02
+// @version      0.41.04
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -76,8 +76,8 @@
             reseter++;
             if (minuter > 60) {
                 requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-                if (mineral_quantity[3] > 100){
-                    tradeMinerals (134140, 100, 4);
+                if (mineral_quantity[3] > 500){
+                    tradeMinerals (134140, 500, 4);
                     mineral_quantity[3] = 0;
                 }
 
@@ -193,6 +193,7 @@
                 xhr.setRequestHeader('accept', 'application/json, text/javascript, */*; q=0.01');
             },
             success:  function(data) {
+                console.log(data);
                 planet = data.id;
                 incoming = data.incoming;
                 mineral_quantity[3] = data.resources[3].quantity;
