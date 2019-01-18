@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.05
+// @version      0.41.06
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -44,16 +44,10 @@
     requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
-        $('.sidebar-nav').append('<center>'+
-                                 '<div class="player-energy" style="top: 182px;"></div>'+
-                                 '<a class="btn btn-default test" href="#" title="test">..</a>'+
-                                 '<a class="btn btn-default transmute" href="#" title="Transmute (!) minerals">E</a>'+
-                                 '<a class="btn btn-default trade" href="#" title="Trade minerals">S</a>'+
-                                 '<a class="btn btn-default train" href="#" title="Train scouts">T</a>'+
-                                 '</center>');
-        $(".test").click(function() {
-            test();
-        });
+        $('.player').append('<center><div class="player-energy" style="top: 182px;">'+
+                                 '<a class="btn btn-default trade" href="#" title="Trade minerals">Sell</a>'+
+                                 '<a class="btn btn-default train" href="#" title="Train scouts">Scouts</a>'+
+                            '</div></center>');
         $(".transmute").click(function() {
             transmuteMinerals (134150, 10, 4);
         });
@@ -101,14 +95,6 @@
                 location.reload(true);
             }
         },1000);
-    }
-
-    function test (){
-        buyDrones (134148, 1, 2);
-        buyDrones (134147, 1, 2);
-        buyDrones (134146, 1, 2);
-        buyDrones (134142, 1, 2);
-        buyDrones (134141, 1, 2);
     }
 
     function sendScouts (planet, quantity){
