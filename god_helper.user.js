@@ -45,6 +45,7 @@
 
     function insertControlPanel (){
         $('.sidebar-nav').append('<center>'+
+                                 '<div class="player-energy" style="top: 182px;"></div>'+
                                  '<a class="btn btn-default test" href="#" title="test">..</a>'+
                                  '<a class="btn btn-default transmute" href="#" title="Transmute (!) minerals">E</a>'+
                                  '<a class="btn btn-default trade" href="#" title="Trade minerals">S</a>'+
@@ -81,11 +82,13 @@
                     mineral_quantity[3] = 0;
                 }
 
-                buyDrones (134142, 1, 2);
-                buyDrones (134141, 1, 2);
-                buyDrones (134148, 1, 2);
-                buyDrones (134147, 1, 2);
-                buyDrones (134146, 1, 2);
+                if (need_scouts) {
+                    buyDrones (134142, 1, 2);
+                    buyDrones (134141, 1, 2);
+                    buyDrones (134148, 1, 2);
+                    buyDrones (134147, 1, 2);
+                    buyDrones (134146, 1, 2);
+                }
 
                 //sendScouts (949, drones_quantity[1]);
                 //sendScouts (11257, drones_quantity[1]);
