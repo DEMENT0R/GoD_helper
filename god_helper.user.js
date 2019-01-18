@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.36
+// @version      0.37
 // @description  GoD helper
-// @icon         https://galaxyofdrones.com/favicon.ico
+// @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
 // @match        https://*.galaxyofdrones.com/*
 // @require      https://code.jquery.com/jquery-3.2.1.min.js
@@ -35,13 +35,13 @@
     var drones_storage_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var request_data;
     var raw_data;
-    var request_url = "https://galaxyofdrones.com/";
+    var request_url = "https://play.galaxyofdrones.com/";
     var data_response;
     //console.log("request_url = " + request_url);
 
     insertControlPanel ();
     startTimer ();
-    requestSendGet ("https://galaxyofdrones.com/api/planet");
+    requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
         $('.sidebar-nav').append('<center>'+
@@ -67,7 +67,7 @@
             minuter++;
             reseter++;
             if (minuter > 60) {
-                requestSendGet ("https://galaxyofdrones.com/api/planet");
+                requestSendGet ("https://play.galaxyofdrones.com/api/planet");
                 if (mineral_quantity[3] > 100){
                     tradeMinerals (134140, 100, 4);
                     mineral_quantity[3] = 0;
@@ -99,16 +99,16 @@
     }
 
     function sendScouts (planet, quantity){
-        //https://galaxyofdrones.com/api/movement/scout/949
+        //https://play.galaxyofdrones.com/api/movement/scout/949
         request_data = $.toJSON({"quantity":quantity});
-        request_url = "https://galaxyofdrones.com/api/movement/scout/" + planet;
+        request_url = "https://play.galaxyofdrones.com/api/movement/scout/" + planet;
         requestSendPost (request_url, request_data);
     }
 
     function buyDrones (building, quantity, drone_id){
-        //https://galaxyofdrones.com/api/trainer/134148/2
+        //https://play.galaxyofdrones.com/api/trainer/134148/2
         request_data = $.toJSON({"quantity":quantity});
-        request_url = "https://galaxyofdrones.com/api/trainer/" + building +"/" + drone_id;
+        request_url = "https://play.galaxyofdrones.com/api/trainer/" + building +"/" + drone_id;
         requestSendPost (request_url, request_data);
     }
 
@@ -119,7 +119,7 @@
     function transmuteMinerals (building, quantity, mineral){
         //request_data = JSON.stringify({"quantity":quantity});
         request_data = $.toJSON({"quantity":quantity});
-        request_url = "https://galaxyofdrones.com/api/producer/" + building +"/" + mineral;
+        request_url = "https://play.galaxyofdrones.com/api/producer/" + building +"/" + mineral;
         requestSendPost (request_url, request_data);
     }
     function tradeMinerals (building, quantity, mineral){
@@ -149,7 +149,7 @@
             default:
                 alert( 'Я таких значений не знаю' );
         }
-        request_url = "https://galaxyofdrones.com/api/movement/trade/" + building;
+        request_url = "https://play.galaxyofdrones.com/api/movement/trade/" + building;
         requestSendPost (request_url, request_data);
     }
 
@@ -171,7 +171,7 @@
 
     //GET-request
     function requestSendGet (request_url){
-        //request_url = "https://galaxyofdrones.com/api/planet";
+        //request_url = "https://play.galaxyofdrones.com/api/planet";
         $.ajax({
             type: "GET",
             url: request_url,
