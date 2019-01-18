@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.35
+// @version      0.36
 // @description  GoD helper
 // @icon         https://galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
-// @match        https://galaxyofdrones.com/*
+// @match        https://*.galaxyofdrones.com/*
 // @require      https://code.jquery.com/jquery-3.2.1.min.js
 // @require      https://raw.githubusercontent.com/Krinkle/jquery-json/master/dist/jquery.json.min.js
 // @require      https://raw.githubusercontent.com/carhartl/jquery-cookie/master/src/jquery.cookie.js
