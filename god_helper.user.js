@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.38
+// @version      0.39
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -45,7 +45,7 @@
 
     function insertControlPanel (){
         $('.sidebar-nav').append('<center>'+
-                                 '<a class="btn btn-default test" href="#" title="test">..</a>'+
+                                 '<a class="btn btn-default test" href="#" title="test">T</a>'+
                                  '<a class="btn btn-default transmute" href="#" title="Transmute">E</a>'+
                                  '<a class="btn btn-default trade" href="#" title="Trade">S</a>'+
                                  '</center>');
