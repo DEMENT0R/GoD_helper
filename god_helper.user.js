@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.09
+// @version      0.41.10
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -44,7 +44,7 @@
     //console.log("request_url = " + request_url);
 
     insertControlPanel ();
-    startTimer ();
+    //startTimer ();
     requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
