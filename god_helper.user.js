@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.07
+// @version      0.41.09
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -21,6 +21,8 @@
 (function() {
     'use strict';
 
+    var $ = window.jQuery;
+
     //main variables
     var x_csrf_token = document.querySelector('meta[name="csrf-token"]').content;
     var x_xsrf_token = Cookies.get('XSRF-TOKEN');
@@ -33,6 +35,8 @@
     var mineral_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var drones_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var drones_storage_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
+    var data;
+    var grids;
     var request_data;
     var raw_data;
     var request_url = "https://play.galaxyofdrones.com/";
@@ -45,11 +49,12 @@
 
     function insertControlPanel (){
         $('.player').append('<center><div class="player-energy" style="top: 142px;">'+
-                                 '<a class="btn trade" href="#" title="Trade minerals">Sell</a> | '+
+                                 '<a class="btn upgrade" href="#" title="Full Upgrade">Up</a>|'+
+                                 '<a class="btn trade" href="#" title="Trade minerals">Sell</a>|'+
                                  '<a class="btn train" href="#" title="Train scouts">Scouts</a>'+
                             '</div></center>');
-        $(".transmute").click(function() {
-            transmuteMinerals (134150, 10, 4);
+        $(".upgrade").click(function() {
+            fullUpgrade ();
         });
         $(".trade").click(function() {
             tradeMinerals (134140, 100, 4);
@@ -95,6 +100,28 @@
                 location.reload(true);
             }
         },1000);
+    }
+
+    function fullUpgrade () {
+        requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+        /*
+        for (var grid in grids) {
+            console.log(grid); // 0 1 2 3 4 5
+        }
+        */
+        setTimeout(function(){
+            grids.forEach(item => {
+                // нельзя прервать — выполнится для всех элементов массива в независимости от условий
+                //console.log(item.id); // 'a' 'b' 'c' 'd' 'e' 'f'
+                doUpgrade (item.id);
+            });
+        },5000);
+    }
+
+    function doUpgrade (grid){
+        request_url = "https://play.galaxyofdrones.com/api/upgrade/" + grid;
+        request_data = "";
+        requestSendPost (request_url, request_data);
     }
 
     function sendScouts (planet, quantity){
