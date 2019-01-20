@@ -80,7 +80,8 @@
             allMissions ();
         });
         $(".helper-trade").click(function() {
-            tradeMinerals (134140, 500, 4);
+            tradeMinerals (trade_center, 500, 1);
+            tradeMinerals (trade_center, 500, 4);
         });
         $(".helper-train").click(function() {
             buyDrones (134142, 1, 2);
