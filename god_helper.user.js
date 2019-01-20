@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.22
+// @version      0.41.23
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -52,7 +52,10 @@
     //Additional
     var need_scouts = false;
 
-    insertControlPanel ();
+    setTimeout(function(){
+        insertControlPanel ();
+    },3000);
+
     getBuildings ();
 
     //startTimer ();
