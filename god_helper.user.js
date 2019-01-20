@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.19
+// @version      0.41.20
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -62,12 +62,12 @@
         $('.player').append('<div class="player-energy" style="top: 142px;">'+
                                  '<a class="btn helper-upgrade" href="#" title="Full Upgrade">Up</a>|'+
                                  '<a class="btn helper-missions" href="#" title="All missions">Mis.</a>|'+
-                                 '<a class="btn helper-expeditions" href="#" title="All expeditions">Exp.</a>|'+
+                                 '<a class="btn helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 182px;">'+
                                  '<a class="btn helper-0" href="#" title="##">##</a>|'+
                                  '<a class="btn helper-0" href="#" title="##">##</a>|'+
-                                 '<a class="btn helper-0" href="#" title="##">##</a>|'+
+                                 '<a class="btn helper-0" href="#" title="##">##</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 222px;">'+
                                  '<a class="btn helper-trade" href="#" title="Trade minerals">(S)</a>|'+
@@ -90,6 +90,12 @@
             buyDrones (134147, 1, 2);
             buyDrones (134146, 1, 2);
         });
+
+        for (var i = 0; i < 8; i++) {
+            $(".resource-"+i).click(function() {
+                tradeMinerals (trade_center, 100, i);
+            });
+        }
     }
 
     function startTimer (){
