@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.17
+// @version      0.41.18
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -45,10 +45,16 @@
     var data_response;
     //console.log("request_url = " + request_url);
 
+    //Buildings
+    var trade_center = 0;
+    var factories;
+
     //Additional
     var need_scouts = false;
 
     insertControlPanel ();
+    getBuildings ();
+
     //startTimer ();
     requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
@@ -120,6 +126,7 @@
         },1000);
     }
 
+    // UPGRADES
     function fullUpgrade () {
         requestSendGet ("https://play.galaxyofdrones.com/api/planet");
         setTimeout(function(){
@@ -135,6 +142,7 @@
         requestSendPost (request_url, request_data);
     }
 
+    // MISSIONS
     function allMissions () {
         requestSendGet ("https://play.galaxyofdrones.com/api/mission");
         console.log(data);
@@ -152,6 +160,32 @@
         requestSendPost (request_url, request_data);
     }
 
+    //Selling any minerals
+    function sellAnyMinerals () {
+
+    }
+    
+    /////////////////////
+    // SMALL FUNCTIONS //
+    /////////////////////
+
+    function getBuildings () {
+        trade_center = 0;
+        //factories = '';
+
+        requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+        setTimeout(function(){
+            grids.forEach(function(item, i, grids) {
+                if (item.building_id == 7) {
+                    trade_center = item.id;
+                }
+                if (item.building_id == 8) {
+                    //factories = item.id;
+                }
+            });
+        },3000);
+    }
+    
     function sendScouts (planet, quantity){
         //https://play.galaxyofdrones.com/api/movement/scout/949
         request_data = $.toJSON({"quantity":quantity});
