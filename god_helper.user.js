@@ -53,11 +53,12 @@
     requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
-        $('.player').append('<div class="player-energy" style="top: 142px; heiht: 70px;">'+
+        $('.player').append('<div class="player-energy" style="top: 142px;">'+
                                  '<a class="btn helper-upgrade" href="#" title="Full Upgrade">Up</a>|'+
-                                 '<a class="btn helper-missions" href="#" title="All missions">Missions</a>|'+
-                                 '<a class="btn helper-expeditions" href="#" title="All expeditions">Expeditions</a>|'+
-                                 '<br>'+
+                                 '<a class="btn helper-missions" href="#" title="All missions">Mis.</a>|'+
+                                 '<a class="btn helper-expeditions" href="#" title="All expeditions">Exp.</a>|'+
+                            '</div>'+
+                            '<div class="player-energy" style="top: 142px;">'+
                                  '<a class="btn helper-trade" href="#" title="Trade minerals">(S)</a>|'+
                                  '<a class="btn helper-train" href="#" title="Train scouts">(T)</a>'+
                             '</div>');
