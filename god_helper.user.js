@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.12
+// @version      0.41.13
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -53,13 +53,18 @@
     requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
-        $('.player').append('<center><div class="player-energy" style="top: 142px;">'+
+        $('.player').append('<center><div class="player-energy" style="top: 142px; heiht: 200%;">'+
                                  '<a class="btn helper-upgrade" href="#" title="Full Upgrade">Up</a>|'+
-                                 '<a class="btn helper-trade" href="#" title="Trade minerals">Sell(!)</a>|'+
-                                 '<a class="btn helper-train" href="#" title="Train scouts">Sc(!)</a>'+
+                                 '<a class="btn helper-missions" href="#" title="All missions">Mi</a>|'+
+                                 '<br>'+
+                                 '<a class="btn helper-trade" href="#" title="Trade minerals">(S)</a>|'+
+                                 '<a class="btn helper-train" href="#" title="Train scouts">(T)</a>'+
                             '</div></center>');
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
+        });
+        $(".helper-upgrade").click(function() {
+            allMissions ();
         });
         $(".helper-trade").click(function() {
             tradeMinerals (134140, 500, 4);
@@ -111,7 +116,7 @@
     function fullUpgrade () {
         requestSendGet ("https://play.galaxyofdrones.com/api/planet");
         setTimeout(function(){
-                grids.forEach(function(item, i, grids) {
+            grids.forEach(function(item, i, grids) {
                 doUpgrade (item.id);
             });
         },3000);
@@ -119,6 +124,23 @@
 
     function doUpgrade (grid){
         request_url = "https://play.galaxyofdrones.com/api/upgrade/" + grid;
+        request_data = "";
+        requestSendPost (request_url, request_data);
+    }
+
+    function allMissions () {
+        requestSendGet ("https://play.galaxyofdrones.com/api/mission");
+        console.log(data);
+        setTimeout(function(){
+            grids.forEach(function(item, i, grids) {
+                //goMission (mission.id);
+            });
+        },3000);
+    }
+
+    function goMission (mission){
+        //https://play.galaxyofdrones.com/api/mission/633212
+        request_url = "https://play.galaxyofdrones.com/api/mission/" + mission;
         request_data = "";
         requestSendPost (request_url, request_data);
     }
