@@ -58,7 +58,7 @@
                                  '<a class="btn helper-missions" href="#" title="All missions">Mis.</a>|'+
                                  '<a class="btn helper-expeditions" href="#" title="All expeditions">Exp.</a>|'+
                             '</div>'+
-                            '<div class="player-energy" style="top: 142px;">'+
+                            '<div class="player-energy" style="top: 180px;">'+
                                  '<a class="btn helper-trade" href="#" title="Trade minerals">(S)</a>|'+
                                  '<a class="btn helper-train" href="#" title="Train scouts">(T)</a>'+
                             '</div>');
