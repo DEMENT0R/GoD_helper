@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.13
+// @version      0.41.14
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -53,13 +53,14 @@
     requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
-        $('.player').append('<center><div class="player-energy" style="top: 142px; heiht: 200%;">'+
+        $('.player').append('<div class="player-energy" style="top: 142px; heiht: 70px;">'+
                                  '<a class="btn helper-upgrade" href="#" title="Full Upgrade">Up</a>|'+
-                                 '<a class="btn helper-missions" href="#" title="All missions">Mi</a>|'+
+                                 '<a class="btn helper-missions" href="#" title="All missions">Missions</a>|'+
+                                 '<a class="btn helper-expeditions" href="#" title="All expeditions">Expeditions</a>|'+
                                  '<br>'+
                                  '<a class="btn helper-trade" href="#" title="Trade minerals">(S)</a>|'+
                                  '<a class="btn helper-train" href="#" title="Train scouts">(T)</a>'+
-                            '</div></center>');
+                            '</div>');
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
         });
