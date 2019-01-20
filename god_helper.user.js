@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.18
+// @version      0.41.19
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -81,7 +81,7 @@
         });
         $(".helper-trade").click(function() {
             tradeMinerals (trade_center, 500, 1);
-            tradeMinerals (trade_center, 500, 4);
+            //tradeMinerals (trade_center, 500, 4);
         });
         $(".helper-train").click(function() {
             buyDrones (134142, 1, 2);
