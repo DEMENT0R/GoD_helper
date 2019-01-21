@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.23
+// @version      0.41.24
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -37,7 +37,7 @@
     var mineral_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var drones_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var drones_storage_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
-    var data;
+    var full_data;
     var grids;
     var request_data;
     var raw_data;
@@ -48,13 +48,16 @@
     //Buildings
     var trade_center = 0;
     var factories;
+    //Units
+    var units;
 
     //Additional
     var need_scouts = false;
 
-    setTimeout(function(){
-        insertControlPanel ();
-    },3000);
+
+        setTimeout(function(){
+            insertControlPanel ();
+        },3000);
 
     getBuildings ();
 
@@ -79,8 +82,9 @@
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
         });
-        $(".helper-upgrade").click(function() {
-            allMissions ();
+        $(".helper-missions").click(function() {
+            console.log(full_data);
+            //allMissions ();
         });
         $(".helper-trade").click(function() {
             tradeMinerals (trade_center, 500, 1);
@@ -94,16 +98,25 @@
             buyDrones (134146, 1, 2);
         });
 
-        for (var i = 1; i < 7; i++) {
+        for (var i = 1; i < 8; i++) {
             addClickEventHandlerToSellMineral (i);
-
-            // $(".resource-"+i).click(function() {
-            //     tradeMinerals (trade_center, 100, i);
-            // });
         }
         function addClickEventHandlerToSellMineral (i) {
+            //console.log(i);
             $(".resource-"+i).click(function() {
-                tradeMinerals (trade_center, 100, i);
+                var q = 100 * units[0].storage;
+                console.log(q);
+                var r = full_data.resources[i-1].quantity;
+                console.log(r);
+                if (r > 0) {
+                    if (r > q) {
+                        r = q;
+                    } else {
+                        q = r;
+                    }
+                    tradeMinerals (trade_center, q, i);
+                }
+                
             });
         }
     }
@@ -123,11 +136,11 @@
                 }
 
                 if (need_scouts) {
-                    buyDrones (134142, 1, 2);
-                    buyDrones (134141, 1, 2);
-                    buyDrones (134148, 1, 2);
-                    buyDrones (134147, 1, 2);
-                    buyDrones (134146, 1, 2);
+                    buyDrones (134142, 20, 2);
+                    buyDrones (134141, 20, 2);
+                    buyDrones (134148, 20, 2);
+                    buyDrones (134147, 20, 2);
+                    buyDrones (134146, 20, 2);
                 }
 
                 //sendScouts (949, drones_quantity[1]);
@@ -162,7 +175,6 @@
     // MISSIONS
     function allMissions () {
         requestSendGet ("https://play.galaxyofdrones.com/api/mission");
-        console.log(data);
         setTimeout(function(){
             grids.forEach(function(item, i, grids) {
                 //goMission (mission.id);
@@ -289,9 +301,14 @@
             },
             success:  function(data) {
                 //console.log(data);
+                full_data = data;
+
                 planet = data.id;
                 grids = data.grids;
                 incoming = data.incoming;
+                units = data.units;
+                //console.log(units);
+                //===
                 mineral_quantity[3] = data.resources[3].quantity;
                 drones_quantity[1] = data.units[1].quantity;
                 drones_storage_quantity[1] = data.units[1].quantity;
