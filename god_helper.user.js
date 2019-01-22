@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.24
+// @version      0.41.25
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -66,18 +66,18 @@
 
     function insertControlPanel (){
         $('.player').append('<div class="player-energy" style="top: 142px;">'+
-                                 '<a class="btn helper-upgrade" href="#" title="Full Upgrade">Up</a>|'+
-                                 '<a class="btn helper-missions" href="#" title="All missions">Mis.</a>|'+
-                                 '<a class="btn helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
+                                 '<a class="helper-upgrade" href="#" title="Full Upgrade">Up</a> | '+
+                                 '<a class="helper-missions" href="#" title="All missions">Mis.</a> | '+
+                                 '<a class="helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 182px;">'+
-                                 '<a class="btn helper-0" href="#" title="##">##</a>|'+
-                                 '<a class="btn helper-0" href="#" title="##">##</a>|'+
-                                 '<a class="btn helper-0" href="#" title="##">##</a>'+
+                                 '<a class="helper-0" href="#" title="##">##</a> | '+
+                                 '<a class="helper-0" href="#" title="##">##</a> | '+
+                                 '<a class="helper-0" href="#" title="##">##</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 222px;">'+
-                                 '<a class="btn helper-trade" href="#" title="Trade minerals">(S)</a>|'+
-                                 '<a class="btn helper-train" href="#" title="Train scouts">(T)</a>'+
+                                 '<a class="helper-trade" href="#" title="Trade minerals">(S)</a> | '+
+                                 '<a class="helper-train" href="#" title="Train scouts">(T)</a>'+
                             '</div>');
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
@@ -91,11 +91,11 @@
             //tradeMinerals (trade_center, 500, 4);
         });
         $(".helper-train").click(function() {
-            buyDrones (134142, 1, 2);
-            buyDrones (134141, 1, 2);
-            buyDrones (134148, 1, 2);
-            buyDrones (134147, 1, 2);
-            buyDrones (134146, 1, 2);
+            buyDrones (134142, 20, 2);
+            buyDrones (134141, 20, 2);
+            buyDrones (134148, 20, 2);
+            buyDrones (134147, 20, 2);
+            buyDrones (134146, 20, 2);
         });
 
         for (var i = 1; i < 8; i++) {
