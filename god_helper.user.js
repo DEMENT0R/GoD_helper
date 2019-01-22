@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.25
+// @version      0.41.26
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -104,7 +104,7 @@
         function addClickEventHandlerToSellMineral (i) {
             //console.log(i);
             $(".resource-"+i).click(function() {
-                var q = 100 * units[0].storage;
+                var q = 100 * (units[0].storage + full_data.units[0].quantity);
                 console.log(q);
                 var r = full_data.resources[i-1].quantity;
                 console.log(r);
@@ -116,7 +116,6 @@
                     }
                     tradeMinerals (trade_center, q, i);
                 }
-                
             });
         }
     }
@@ -300,7 +299,7 @@
                 xhr.setRequestHeader('accept', 'application/json, text/javascript, */*; q=0.01');
             },
             success:  function(data) {
-                //console.log(data);
+                console.log(data);
                 full_data = data;
 
                 planet = data.id;
