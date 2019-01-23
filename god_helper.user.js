@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.26
+// @version      0.41.27
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -57,7 +57,7 @@
 
         setTimeout(function(){
             insertControlPanel ();
-        },3000);
+        },1000);
 
     getBuildings ();
 
@@ -66,6 +66,7 @@
 
     function insertControlPanel (){
         $('.player').append('<div class="player-energy" style="top: 142px;">'+
+                                 '<a class="helper-refresh" href="#" title="Refresh">(R)</a> | '+
                                  '<a class="helper-upgrade" href="#" title="Full Upgrade">Up</a> | '+
                                  '<a class="helper-missions" href="#" title="All missions">Mis.</a> | '+
                                  '<a class="helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
@@ -79,6 +80,9 @@
                                  '<a class="helper-trade" href="#" title="Trade minerals">(S)</a> | '+
                                  '<a class="helper-train" href="#" title="Train scouts">(T)</a>'+
                             '</div>');
+        $(".helper-refresh").click(function() {
+            requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+        });
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
         });
@@ -115,6 +119,7 @@
                         q = r;
                     }
                     tradeMinerals (trade_center, q, i);
+                    requestSendGet ("https://play.galaxyofdrones.com/api/planet");
                 }
             });
         }
