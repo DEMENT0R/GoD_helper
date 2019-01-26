@@ -7,7 +7,7 @@ Auto:
 # TOP
 ## PvE
 	#	Username	Experience	Mission	Expedition
-	1	Telpapa	8340.89m	339	116
+	1	Telpapa	8340.91m	339	116
 	2	Etalz	2940.45m	318	15
 	3	Filler	1521.04m	149	17
 	4	knotwork	686.49m	49	0
