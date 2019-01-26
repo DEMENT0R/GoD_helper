@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.04
+// @version      0.50.05
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -102,12 +102,13 @@
     function insertControlPanel (){
         $('.player').append('<div class="player-energy" style="top: 142px;">'+
                                  '<a class="helper-refresh" href="#" title="Refresh">(R)</a> | '+
+                                 '<a class="helper-full" href="#" title="Full cycle">(F)</a> | '+
                                  '<a class="helper-upgrade" href="#" title="Full Upgrade">Upgr</a> | '+
                                  '<a class="helper-build" href="#" title="Full Upgrade">Build</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 182px;">'+
-                                 '<a class="helper-missions" href="#" title="All missions">Mis.</a> | '+
-                                 '<a class="helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
+                                 '<a class="helper-missions" href="#" title="Mission">Mission</a> | '+
+                                 '<a class="helper-expeditions" href="#" title="All expeditions">Expeditions</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 222px;">'+
                                  '<a class="helper-trade" href="#" title="Trade minerals">S</a> | '+
@@ -120,6 +121,23 @@
             setTimeout(function(){
             	getAllBuildings ();
             },1000);
+        });
+        $(".helper-full").click(function() {
+            requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+            setTimeout(function(){
+            	getAllBuildings ();
+            },1000);
+            setTimeout(function(){
+            	fullUpgrade ();
+            },2000);
+            setTimeout(function(){
+            	//buyDrones (grid, quantity, drone_id);
+                buyDrones (DroneFactory[0], 10, 1);
+                buyDrones (DroneFactory[1], 10, 1);
+                buyDrones (DroneFactory[2], 30, 2);
+                buyDrones (DroneFactory[3], 30, 2);
+                buyDrones (DroneFactory[4], 10, 6);
+            },3000);
         });
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
