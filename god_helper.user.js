@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.06
+// @version      0.50.07
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -176,38 +176,38 @@
         for (var i = 1; i < 8; i++) {
             addClickEventHandlerToSellMineral (i);
         }
+        
         function addClickEventHandlerToSellMineral (i) {
-            //console.log(i);
-            $(".resource-"+i).click(function() {
-            	var q = full_data.units[0].quantity;
+        	setTimeout(function(){
+                console.log('update 1');
+				requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+	            //console.log(i);
+	            $(".resource-"+i).click(function() {
+	            	var q = full_data.units[0].quantity;
 
-            	if (full_data.is_capital) {
-            		console.log('is_capital');
-            		q = q + full_data.units[0].storage;
-            	}
+	            	if (full_data.is_capital) {
+	            		console.log('is_capital');
+	            		q = q + full_data.units[0].storage;
+	            	}
 
-            	q = q * 100;
+	            	q = q * 100;
 
-                console.log(q);
-                var r = full_data.resources[i-1].quantity;
-                console.log(r);
-                if ((r > 0) && (q > 0)) {
-                    if (r > q) {
-                        r = q;
-                    } else {
-                        q = r;
-                    }
-                    
-				    setTimeout(function(){
-						requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-				    },100);
-				    setTimeout(function(){
+	                console.log(q);
+	                var r = full_data.resources[i-1].quantity;
+	                console.log(r);
+	                if ((r > 0) && (q > 0)) {
+	                    if (r > q) {
+	                        r = q;
+	                    } else {
+	                        q = r;
+	                    }
+
+                        console.log('trade');
 						tradeMinerals (TradeOffice[0], q, i);
-				    },500);
-				    setTimeout(function(){
+                        console.log('update 2');
 						requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-				    },1000);
-                }
+	                }
+	            },500);
             });
         }
     }
