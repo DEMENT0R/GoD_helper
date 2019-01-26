@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.02
+// @version      0.50.03
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -113,6 +113,7 @@
                                  '<a class="helper-trade" href="#" title="Trade minerals">Sell</a> | '+
                                  '<a class="helper-train-1" href="#" title="Goliath x 10">Goliath</a> | '+
                                  '<a class="helper-train-2" href="#" title="Scout x 10">Scout</a>'+
+                                 '<a class="helper-train-3" href="#" title="Raven x 10">Raven</a>'+
                             '</div>');
         $(".helper-refresh").click(function() {
             requestSendGet ("https://play.galaxyofdrones.com/api/planet");
@@ -135,13 +136,18 @@
         $(".helper-trade").click(function() {
         	console.log(request_data);
             tradeMinerals (TradeOffice[0], 500, 1);
-            //tradeMinerals (trade_center, 500, 4);
         });
+
         $(".helper-train-1").click(function() {
 			buyAllDrones (10, 1);
         });
+
         $(".helper-train-2").click(function() {
-            buyAllDrones (10, 1);
+            buyAllDrones (10, 2);
+        });
+
+        $(".helper-train-3").click(function() {
+            buyAllDrones (10, 6);
         });
 
         for (var i = 1; i < 8; i++) {
