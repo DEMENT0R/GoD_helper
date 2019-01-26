@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         GoD Helper II
-// @namespace    God helper II
-// @version      0.50.01
+// @name         GoD Helper
+// @namespace    God helper
+// @version      0.41.27
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -12,8 +12,8 @@
 // @require      https://raw.githubusercontent.com/Krinkle/jquery-json/master/dist/jquery.json.min.js
 // @require      https://raw.githubusercontent.com/carhartl/jquery-cookie/master/src/jquery.cookie.js
 // @require      https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js
-// @downloadURL  https://github.com/DEMENT0R/
-// @updateURL    https://github.com/DEMENT0R/
+// @downloadURL  https://github.com/DEMENT0R/GoD_helper/raw/master/god_helper.user.js
+// @updateURL    https://github.com/DEMENT0R/GoD_helper/raw/master/god_helper.user.js
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_listValues
@@ -24,7 +24,6 @@
     'use strict';
 
     var $ = window.jQuery;
-    var Cookies = window.Cookies;
 
     //main variables
     var x_csrf_token = document.querySelector('meta[name="csrf-token"]').content;
@@ -38,7 +37,6 @@
     var mineral_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var drones_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
     var drones_storage_quantity = [0, 0, 0, 0, 0, 0, 0, 0];
-    //var data;
     var full_data;
     var grids;
     var request_data;
@@ -48,66 +46,35 @@
     //console.log("request_url = " + request_url);
 
     //Buildings
-    var buildings_needed = 0;
-
     var trade_center = 0;
     var factories;
-
-    var Minerals = [];
-    var CommandCenter = []; //building_id: 1; type: 2;
-    var Mine = []; //building_id: 2; type: 1;
-    var PowerPlant = []; //building_id: 3
-    var DroneBay = []; //building_id: 4
-    var Warehouse = []; //building_id: 5
-    var SensorTower = []; //building_id: 6
-    var TradeOffice = []; //building_id: 7
-    var DroneFactory = []; //building_id: 8
-    var MissileTurret = []; //building_id: 9
-    var ShieldGenerator = []; //building_id: 10
-
     //Units
     var units;
 
     //Additional
     var need_scouts = false;
 
-    // Antierror
-    var data_requesting_now = false;
 
-    //get initial data
-    data_requesting_now = true;
-    requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+        setTimeout(function(){
+            insertControlPanel ();
+        },1000);
 
-    setTimeout(function(){
-        if (!data_requesting_now) {
-            console.log(full_data);
-            setTimeout(function(){
-                insertControlPanel ();
-                //getBuildings (); // OLD Trade Center
-                getAllBuildings ();
-            },1000);
-        } else {
-            console.log('Data Loading error!');
-        }
-    },1000);
-
-
-    // OLD starts
+    getBuildings ();
 
     //startTimer ();
-    //requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-
-    // OLD ends
+    requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 
     function insertControlPanel (){
         $('.player').append('<div class="player-energy" style="top: 142px;">'+
                                  '<a class="helper-refresh" href="#" title="Refresh">(R)</a> | '+
-                                 '<a class="helper-upgrade" href="#" title="Full Upgrade">Upgr</a> | '+
-                                 '<a class="helper-build" href="#" title="Full Upgrade">Build</a>'+
-                            '</div>'+
-                            '<div class="player-energy" style="top: 182px;">'+
+                                 '<a class="helper-upgrade" href="#" title="Full Upgrade">Up</a> | '+
                                  '<a class="helper-missions" href="#" title="All missions">Mis.</a> | '+
                                  '<a class="helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
+                            '</div>'+
+                            '<div class="player-energy" style="top: 182px;">'+
+                                 '<a class="helper-0" href="#" title="##">##</a> | '+
+                                 '<a class="helper-0" href="#" title="##">##</a> | '+
+                                 '<a class="helper-0" href="#" title="##">##</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 222px;">'+
                                  '<a class="helper-trade" href="#" title="Trade minerals">(S)</a> | '+
@@ -115,25 +82,16 @@
                             '</div>');
         $(".helper-refresh").click(function() {
             requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-            setTimeout(function(){
-                getAllBuildings ();
-            },1000);
         });
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
         });
-        $(".helper-build").click(function() {
-            fullBuild ();
-            setTimeout(function(){
-                getAllBuildings ();
-            },1000);
-        });
         $(".helper-missions").click(function() {
-            allMissions ();
+            console.log(full_data);
+            //allMissions ();
         });
         $(".helper-trade").click(function() {
-            console.log(request_data);
-            tradeMinerals (TradeOffice[0], 500, 1);
+            tradeMinerals (trade_center, 500, 1);
             //tradeMinerals (trade_center, 500, 4);
         });
         $(".helper-train").click(function() {
@@ -150,29 +108,18 @@
         function addClickEventHandlerToSellMineral (i) {
             //console.log(i);
             $(".resource-"+i).click(function() {
-                var q = full_data.units[0].quantity;
-
-                if (full_data.is_capital) {
-                    console.log('is_capital');
-                    q = q + full_data.units[0].storage;
-                }
-
-                q = q * 100;
-
+                var q = 100 * (units[0].storage + full_data.units[0].quantity);
                 console.log(q);
                 var r = full_data.resources[i-1].quantity;
                 console.log(r);
-                if ((r > 0) && (q > 0)) {
+                if (r > 0) {
                     if (r > q) {
                         r = q;
                     } else {
                         q = r;
                     }
-                    tradeMinerals (TradeOffice[0], q, i);
-
-                    setTimeout(function(){
-                        requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-                    },1000);
+                    tradeMinerals (trade_center, q, i);
+                    requestSendGet ("https://play.galaxyofdrones.com/api/planet");
                 }
             });
         }
@@ -213,323 +160,14 @@
         },1000);
     }
 
-    // RESET BUILDINGS LIST
-    function resetBuildingList () {
-        Minerals = []; //building_id: __
-        CommandCenter = []; //building_id: 1; type: 2;
-        Mine = []; //building_id: 2; type: 1;
-        PowerPlant = []; //building_id: 3
-        DroneBay = []; //building_id: 4
-        Warehouse = []; //building_id: 5
-        SensorTower = []; //building_id: 6
-        TradeOffice = []; //building_id: 7
-        DroneFactory = []; //building_id: 8
-        MissileTurret = []; //building_id: 9
-        ShieldGenerator = []; //building_id: 10
-    }
-    // BUILDINGS PARSER
-    function getAllBuildings () {
-        resetBuildingList (); //clearing data!!!
-
-        requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-        setTimeout(function(){
-            full_data.grids.forEach(function(item, i, grids) {
-                //Minerals
-                if ((full_data.grids[i].building_id == null) && (full_data.grids[i].type == 1)) {
-                    Minerals[Minerals.length] = full_data.grids[i].id;
-                }
-
-                //Already Builded
-                if (full_data.grids[i].building_id != null) {
-                    //console.log("See grid: ");
-                    //console.log(full_data.grids[i]);
-                    // CommandCenter
-                    if (full_data.grids[i].building_id == 1) {
-                        CommandCenter[CommandCenter.length] = full_data.grids[i].id;
-                    }
-
-                    // Mine
-                    if (full_data.grids[i].building_id == 2) {
-                        Mine[Mine.length] = full_data.grids[i].id;
-                    }
-
-                    // PowerPlant
-                    if (full_data.grids[i].building_id == 3) {
-                        PowerPlant[PowerPlant.length] = full_data.grids[i].id;
-                    }
-                    // DroneBay
-                    if (full_data.grids[i].building_id == 4) {
-                        DroneBay[DroneBay.length] = full_data.grids[i].id;
-                    }
-                    // Warehouse
-                    if (full_data.grids[i].building_id == 5) {
-                        Warehouse[Warehouse.length] = full_data.grids[i].id;
-                    }
-                    // SensorTower
-                    if (full_data.grids[i].building_id == 6) {
-                        SensorTower[SensorTower.length] = full_data.grids[i].id;
-                    }
-                    // TradeOffice
-                    if (full_data.grids[i].building_id == 7) {
-                        TradeOffice[TradeOffice.length] = full_data.grids[i].id;
-                    }
-                    // DroneFactory
-                    if (full_data.grids[i].building_id == 8) {
-                        DroneFactory[DroneFactory.length] = full_data.grids[i].id;
-                    }
-                    // MissileTurret
-                    if (full_data.grids[i].building_id == 9) {
-                        MissileTurret[MissileTurret.length] = full_data.grids[i].id;
-                    }
-                    // ShieldGenerator
-                    if (full_data.grids[i].building_id == 10) {
-                        ShieldGenerator[ShieldGenerator.length] = full_data.grids[i].id;
-                    }
-                }
-
-                //Constructing
-                if (full_data.grids[i].construction != null) {
-                    //console.log("See grid: ");
-                    //console.log(full_data.grids[i]);
-                    // CommandCenter
-                    if (full_data.grids[i].construction.building_id == 1) {
-                        CommandCenter[CommandCenter.length] = full_data.grids[i].id;
-                    }
-
-                    // Mine
-                    if (full_data.grids[i].construction.building_id == 2) {
-                        Mine[Mine.length] = full_data.grids[i].id;
-                    }
-
-                    // PowerPlant
-                    if (full_data.grids[i].construction.building_id == 3) {
-                        PowerPlant[PowerPlant.length] = full_data.grids[i].id;
-                    }
-                    // DroneBay
-                    if (full_data.grids[i].construction.building_id == 4) {
-                        DroneBay[DroneBay.length] = full_data.grids[i].id;
-                    }
-                    // Warehouse
-                    if (full_data.grids[i].construction.building_id == 5) {
-                        Warehouse[Warehouse.length] = full_data.grids[i].id;
-                    }
-                    // SensorTower
-                    if (full_data.grids[i].construction.building_id == 6) {
-                        SensorTower[SensorTower.length] = full_data.grids[i].id;
-                    }
-                    // TradeOffice
-                    if (full_data.grids[i].construction.building_id == 7) {
-                        TradeOffice[TradeOffice.length] = full_data.grids[i].id;
-                    }
-                    // DroneFactory
-                    if (full_data.grids[i].construction.building_id == 8) {
-                        DroneFactory[DroneFactory.length] = full_data.grids[i].id;
-                    }
-                    // MissileTurret
-                    if (full_data.grids[i].construction.building_id == 9) {
-                        MissileTurret[MissileTurret.length] = full_data.grids[i].id;
-                    }
-                    // ShieldGenerator
-                    if (full_data.grids[i].construction.building_id == 10) {
-                        ShieldGenerator[ShieldGenerator.length] = full_data.grids[i].id;
-                    }
-                }
-            });
-            /*
-            console.log("Minerals (0): ");
-            console.log(Minerals);
-            console.log("CommandCenter (1): ");
-            console.log(CommandCenter);
-            console.log("Mine (2): ");
-            console.log(Mine);
-            console.log("PowerPlant (3): ");
-            console.log(PowerPlant);
-            console.log("DroneBay (4): ");
-            console.log(DroneBay);
-            console.log("Warehouse (5): ");
-            console.log(Warehouse);
-            console.log("SensorTower (6): ");
-            console.log(SensorTower);
-            console.log("TradeOffice (7): ");
-            console.log(TradeOffice);
-            console.log("DroneFactory (8): ");
-            console.log(DroneFactory);
-            console.log("MissileTurret (9): ");
-            console.log(MissileTurret);
-            console.log("ShieldGenerator (10): ");
-            console.log(ShieldGenerator);
-            */
-        },1000);
-    }
-
-    // AUTOBUILDING
-    function fullBuild () {
-        //Mine
-        if (Mine.length < 5) {
-            Minerals.forEach(function(item, i, Minerals) {
-                console.log("grid: " + item + "; building_id: " + 2);
-                doBuild (item, 2);
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //PowerPlant
-        if (PowerPlant.length < 1) {
-            buildings_needed = 1;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 3 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 3);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //DroneBay
-        if (DroneBay.length < 2) {
-            buildings_needed = 2 - DroneBay.length;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 4 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 4);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //Warehouse
-        if (Warehouse.length < 7) {
-            buildings_needed = 7 - Warehouse.length;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 5 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 5);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //SensorTower
-        if (SensorTower.length < 1) {
-            buildings_needed = 1;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 6 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 6);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //TradeOffice
-        if (TradeOffice.length < 1) {
-            buildings_needed = 1;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 7 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 7);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //DroneFactory
-        if (DroneFactory.length < 5) {
-            buildings_needed = 5 - DroneFactory.length;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 8 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 8);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //MissileTurret
-        if (MissileTurret.length < 1) {
-            buildings_needed = 1;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 9 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 9);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-
-        //ShieldGenerator
-        if (ShieldGenerator.length < 1) {
-            buildings_needed = 1;
-            full_data.grids.forEach(function(item, i, Minerals) {
-                if ((item.building_id == null) && (item.construction == null) && (buildings_needed > 0)) {
-                    console.log("grid: " + item.id + "; building_id: " + 10 + "; buildings_needed: " + buildings_needed);
-                    doBuild (item.id, 10);
-                    buildings_needed = buildings_needed - 1;
-                }
-                if (buildings_needed < 1) {
-                    return;
-                }
-            });
-            getAllBuildings ();
-            return;
-        }
-    }
-
-    function doBuild (grid, building_id) {
-        console.log(grid + ": " + building_id);
-        request_url = "https://play.galaxyofdrones.com/api/construction/" + grid + "/" + building_id;
-        request_data = "";
-        requestSendPost (request_url, request_data);
-    }
-
     // UPGRADES
     function fullUpgrade () {
         requestSendGet ("https://play.galaxyofdrones.com/api/planet");
         setTimeout(function(){
-            full_data.grids.forEach(function(item, i, grids) {
-                if ((full_data.grids[i].building_id != null) && (full_data.grids[i].upgrade == null) && (full_data.grids[i].construction == null) && (full_data.grids[i].level < 10)) {
-                    console.log("Upgrading grid: ");
-                    console.log(full_data.grids[i]);
-                    doUpgrade (item.id);
-                }
+            grids.forEach(function(item, i, grids) {
+                doUpgrade (item.id);
             });
-        },1000);
+        },3000);
     }
 
     function doUpgrade (grid){
@@ -542,25 +180,24 @@
     function allMissions () {
         requestSendGet ("https://play.galaxyofdrones.com/api/mission");
         setTimeout(function(){
-            console.log(full_data.missions);
-            full_data.missions.forEach(function(item, i, missions) {
+            grids.forEach(function(item, i, grids) {
                 //goMission (mission.id);
             });
-        },1000);
+        },3000);
     }
 
     function goMission (mission){
         //https://play.galaxyofdrones.com/api/mission/633212
         request_url = "https://play.galaxyofdrones.com/api/mission/" + mission;
         request_data = "";
-        //requestSendPost (request_url, request_data);
+        requestSendPost (request_url, request_data);
     }
 
     //Selling any minerals
     function sellAnyMinerals () {
 
     }
-
+    
     /////////////////////
     // SMALL FUNCTIONS //
     /////////////////////
@@ -571,7 +208,7 @@
 
         requestSendGet ("https://play.galaxyofdrones.com/api/planet");
         setTimeout(function(){
-            full_data.grids.forEach(function(item, i, grids) {
+            grids.forEach(function(item, i, grids) {
                 if (item.building_id == 7) {
                     trade_center = item.id;
                 }
@@ -579,9 +216,9 @@
                     //factories = item.id;
                 }
             });
-        },1000);
+        },3000);
     }
-
+    
     function sendScouts (planet, quantity){
         //https://play.galaxyofdrones.com/api/movement/scout/949
         request_data = $.toJSON({"quantity":quantity});
@@ -608,7 +245,6 @@
     }
     function tradeMinerals (building, quantity, mineral){
         //request_data = JSON.stringify({"quantity":{mineral: quantity}});
-        console.log("building: " + building + "; mineral: " + mineral + "; quantity: " + quantity);
         switch (mineral) {
             case 1:
                 request_data = $.toJSON({"quantity":{1: quantity}});
@@ -632,7 +268,7 @@
                 request_data = $.toJSON({"quantity":{7: quantity}});
                 break;
             default:
-                console.log('Таких значений минералов не знаю:' + request_data);
+                alert( 'Таких значений минералов не знаю' );
         }
         request_url = "https://play.galaxyofdrones.com/api/movement/trade/" + building;
         requestSendPost (request_url, request_data);
@@ -670,7 +306,16 @@
             success:  function(data) {
                 console.log(data);
                 full_data = data;
-                data_requesting_now = false;
+
+                planet = data.id;
+                grids = data.grids;
+                incoming = data.incoming;
+                units = data.units;
+                //console.log(units);
+                //===
+                mineral_quantity[3] = data.resources[3].quantity;
+                drones_quantity[1] = data.units[1].quantity;
+                drones_storage_quantity[1] = data.units[1].quantity;
             }
         });
     }
