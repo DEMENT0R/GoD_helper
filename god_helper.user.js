@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.05
+// @version      0.50.06
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -138,6 +138,11 @@
                 buyDrones (DroneFactory[3], 30, 2);
                 buyDrones (DroneFactory[4], 10, 6);
             },3000);
+            setTimeout(function(){
+                for (var i = 1; i < 8; i++) {
+                    $(".resource-"+i).click();
+                }
+            },4000);
         });
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
