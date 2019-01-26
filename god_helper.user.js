@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.01
+// @version      0.50.02
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -110,8 +110,9 @@
                                  '<a class="helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 222px;">'+
-                                 '<a class="helper-trade" href="#" title="Trade minerals">(S)</a> | '+
-                                 '<a class="helper-train" href="#" title="Train scouts">(T)</a>'+
+                                 '<a class="helper-trade" href="#" title="Trade minerals">Sell</a> | '+
+                                 '<a class="helper-train-1" href="#" title="Goliath x 10">Goliath</a> | '+
+                                 '<a class="helper-train-2" href="#" title="Scout x 10">Scout</a>'+
                             '</div>');
         $(".helper-refresh").click(function() {
             requestSendGet ("https://play.galaxyofdrones.com/api/planet");
@@ -136,12 +137,11 @@
             tradeMinerals (TradeOffice[0], 500, 1);
             //tradeMinerals (trade_center, 500, 4);
         });
-        $(".helper-train").click(function() {
-            buyDrones (134142, 20, 2);
-            buyDrones (134141, 20, 2);
-            buyDrones (134148, 20, 2);
-            buyDrones (134147, 20, 2);
-            buyDrones (134146, 20, 2);
+        $(".helper-train-1").click(function() {
+			buyAllDrones (10, 1);
+        });
+        $(".helper-train-2").click(function() {
+            buyAllDrones (10, 1);
         });
 
         for (var i = 1; i < 8; i++) {
@@ -587,6 +587,13 @@
         request_data = $.toJSON({"quantity":quantity});
         request_url = "https://play.galaxyofdrones.com/api/movement/scout/" + planet;
         requestSendPost (request_url, request_data);
+    }
+
+    function buyAllDrones (quantity, drone_id) {
+        DroneFactory.forEach(function(grid, i, DroneFactory) {
+        	console.log("buyDrones — grid: " + grid + "; quantity: " + quantity + "; drone_id: " + drone_id);
+            buyDrones (grid, quantity, drone_id);
+        });
     }
 
     function buyDrones (building, quantity, drone_id){
