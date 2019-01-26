@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.07
+// @version      0.50.08
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -176,13 +176,17 @@
         for (var i = 1; i < 8; i++) {
             addClickEventHandlerToSellMineral (i);
         }
-        
+
         function addClickEventHandlerToSellMineral (i) {
-        	setTimeout(function(){
+
+            //console.log(i);
+            $(".resource-"+i).click(function() {
+
                 console.log('update 1');
-				requestSendGet ("https://play.galaxyofdrones.com/api/planet");
-	            //console.log(i);
-	            $(".resource-"+i).click(function() {
+                requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+
+                setTimeout(function(){
+
 	            	var q = full_data.units[0].quantity;
 
 	            	if (full_data.is_capital) {
@@ -207,7 +211,7 @@
                         console.log('update 2');
 						requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 	                }
-	            },500);
+                },500);
             });
         }
     }
