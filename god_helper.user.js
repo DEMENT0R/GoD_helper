@@ -110,7 +110,7 @@
                                  '<a class="helper-expeditions" href="#" title="All expeditions">Exp.</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 222px;">'+
-                                 '<a class="helper-trade" href="#" title="Trade minerals">Sell</a> | '+
+                                 '<a class="helper-trade" href="#" title="Trade minerals">S</a> | '+
                                  '<a class="helper-train-1" href="#" title="Goliath x 10">Goliath</a> | '+
                                  '<a class="helper-train-2" href="#" title="Scout x 10">Scout</a> | '+
                                  '<a class="helper-train-3" href="#" title="Raven x 10">Raven</a>'+
