@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.03
+// @version      0.50.04
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -112,7 +112,7 @@
                             '<div class="player-energy" style="top: 222px;">'+
                                  '<a class="helper-trade" href="#" title="Trade minerals">Sell</a> | '+
                                  '<a class="helper-train-1" href="#" title="Goliath x 10">Goliath</a> | '+
-                                 '<a class="helper-train-2" href="#" title="Scout x 10">Scout</a>'+
+                                 '<a class="helper-train-2" href="#" title="Scout x 10">Scout</a> | '+
                                  '<a class="helper-train-3" href="#" title="Raven x 10">Raven</a>'+
                             '</div>');
         $(".helper-refresh").click(function() {
