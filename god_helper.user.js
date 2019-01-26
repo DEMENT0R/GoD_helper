@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper
 // @namespace    God helper
-// @version      0.41.27
+// @version      0.41.28
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -24,6 +24,7 @@
     'use strict';
 
     var $ = window.jQuery;
+    var Cookies = window.Cookies;
 
     //main variables
     var x_csrf_token = document.querySelector('meta[name="csrf-token"]').content;
