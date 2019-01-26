@@ -197,8 +197,13 @@
                     } else {
                         q = r;
                     }
-                    tradeMinerals (TradeOffice[0], q, i);
-
+                    
+				    setTimeout(function(){
+						requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+				    },100);
+				    setTimeout(function(){
+						tradeMinerals (TradeOffice[0], q, i);
+				    },500);
 				    setTimeout(function(){
 						requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 				    },1000);
