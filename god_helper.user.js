@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.08
+// @version      0.50.09
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -103,7 +103,8 @@
         $('.player').append('<div class="player-energy" style="top: 142px;">'+
                                  '<a class="helper-refresh" href="#" title="Refresh">(R)</a> | '+
                                  '<a class="helper-full" href="#" title="Full cycle">(F)</a> | '+
-                                 '<a class="helper-upgrade" href="#" title="Full Upgrade">Upgr</a> | '+
+                                 '<a class="helper-upgrade" href="#" title="Full Upgrade">Upgr</a> '+
+                                 '(<a class="helper-upgrade-mines" href="#" title="Upgrade Mines">m</a>) | '+
                                  '<a class="helper-build" href="#" title="Full Upgrade">Build</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 182px;">'+
@@ -146,6 +147,9 @@
         });
         $(".helper-upgrade").click(function() {
             fullUpgrade ();
+        });
+        $(".helper-upgrade-mines").click(function() {
+            minesUpgrade ();
         });
         $(".helper-build").click(function() {
             fullBuild ();
@@ -569,8 +573,25 @@
             });
         },1000);
     }
+    function minesUpgrade () {
+        console.log("Mines Upgrade");
+        //requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+        getAllBuildings ();
+
+        setTimeout(function(){
+            //getAllBuildings ();
+
+            Mine.forEach(function(item, i, Mine) {
+                //console.log("Upgrading: " + item);
+                if ((full_data.grids[i].upgrade == null) && (full_data.grids[i].level < 10)) {
+                    doUpgrade (item);
+                }
+            });
+        },2000);
+    }
 
     function doUpgrade (grid){
+        console.log("Upgrading: " + grid);
         request_url = "https://play.galaxyofdrones.com/api/upgrade/" + grid;
         request_data = "";
         requestSendPost (request_url, request_data);
@@ -628,10 +649,15 @@
     }
 
     function buyAllDrones (quantity, drone_id) {
-        DroneFactory.forEach(function(grid, i, DroneFactory) {
-        	console.log("buyDrones — grid: " + grid + "; quantity: " + quantity + "; drone_id: " + drone_id);
-            buyDrones (grid, quantity, drone_id);
-        });
+        requestSendGet ("https://play.galaxyofdrones.com/api/planet");
+        setTimeout(function(){
+            DroneFactory.forEach(function(grid, i, DroneFactory) {
+                getAllBuildings ();
+
+                console.log("buyDrones — grid: " + grid + "; quantity: " + quantity + "; drone_id: " + drone_id);
+                buyDrones (grid, quantity, drone_id);
+            });
+        },2000);
     }
 
     function buyDrones (building, quantity, drone_id){
