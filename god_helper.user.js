@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GoD Helper II
 // @namespace    God helper II
-// @version      0.50.11
+// @version      0.50.12
 // @description  GoD helper
 // @icon         https://play.galaxyofdrones.com/favicon.ico
 // @author       DEMENTOR
@@ -112,10 +112,11 @@
                                  '<a class="helper-expeditions" href="#" title="All expeditions">Expeditions</a>'+
                             '</div>'+
                             '<div class="player-energy" style="top: 222px;">'+
-                                 '<a class="helper-trade" href="#" title="Trade minerals">S</a> | '+
-                                 '<a class="helper-train-1" href="#" title="Goliath x 10">Goliath</a> | '+
-                                 '<a class="helper-train-2" href="#" title="Scout x 10">Scout</a> | '+
-                                 '<a class="helper-train-3" href="#" title="Raven x 100">Raven</a>'+
+                                 '<a class="helper-trade" href="#" title="Trade minerals">Sell</a> | '+
+                                 '<a class="helper-train-1" href="#" title="Goliath x 100">G</a> | '+
+                                 '<a class="helper-train-2" href="#" title="Scout x 100">S</a> | '+
+                                 '<a class="helper-train-3" href="#" title="Raven x 100">R</a>'+
+			    	 '<a class="helper-train-4" href="#" title="Zeus x 100">Z</a>'+
                             '</div>');
         $(".helper-refresh").click(function() {
             requestSendGet ("https://play.galaxyofdrones.com/api/planet");
@@ -166,15 +167,19 @@
         });
 
         $(".helper-train-1").click(function() {
-			buyAllDrones (10, 1);
+			buyAllDrones (100, 1);
         });
 
         $(".helper-train-2").click(function() {
-            buyAllDrones (10, 2);
+            buyAllDrones (100, 2);
         });
 
         $(".helper-train-3").click(function() {
             buyAllDrones (100, 6);
+        });
+
+        $(".helper-train-4").click(function() {
+            buyAllDrones (100, 7);
         });
 
         for (var i = 1; i < 8; i++) {
