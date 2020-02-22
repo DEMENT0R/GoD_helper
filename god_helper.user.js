@@ -231,7 +231,8 @@
         function addClickEventHandlerToSendShips (i) {
             $(".unit-"+i).click(function() {
             	console.log(".unit-" + i + ": " + parseInt($(".unit-"+i).text()));
-            	sendShips(TradeOffice[0], i, 1);
+            	var shipsQuantity = parseInt($(".unit-"+i).text());
+            	sendShips(TradeOffice[0], i, shipsQuantity);
             });
         }
     }
