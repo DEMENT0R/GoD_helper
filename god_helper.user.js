@@ -186,6 +186,10 @@
             addClickEventHandlerToSellMineral (i);
         }
 
+        for (var j = 1; j < 9; j++) {
+            addClickEventHandlerToSendShips (j);
+        }
+
         function addClickEventHandlerToSellMineral (i) {
 
             //console.log(i);
@@ -221,6 +225,13 @@
 						requestSendGet ("https://play.galaxyofdrones.com/api/planet");
 	                }
                 },500);
+            });
+        }
+
+        function addClickEventHandlerToSendShips (i) {
+            $(".unit-"+i).click(function() {
+            	console.log(".unit-" + i + ": " + parseInt($(".unit-"+i).text()));
+            	sendShips(TradeOffice[0], i, 1);
             });
         }
     }
@@ -652,6 +663,15 @@
         request_url = "https://play.galaxyofdrones.com/api/movement/scout/" + planet;
         requestSendPost (request_url, request_data);
     }
+    
+    function sendShips (building, ship, quantity){
+	    // https://play.galaxyofdrones.com/api/movement/patrol/110490
+	    // {"quantity":{"6":1}}
+	    var stringForJson = '{"quantity":{"' + ship + '":' + quantity + '}}';
+        request_data = $.toJSON(JSON.parse(stringForJson));
+        request_url = "https://play.galaxyofdrones.com/api/movement/patrol/" + building;
+        requestSendPost (request_url, request_data);
+    }
 
     function buyAllDrones (quantity, drone_id) {
         requestSendGet ("https://play.galaxyofdrones.com/api/planet");
@@ -685,31 +705,8 @@
     function tradeMinerals (building, quantity, mineral){
         //request_data = JSON.stringify({"quantity":{mineral: quantity}});
         console.log("building: " + building + "; mineral: " + mineral + "; quantity: " + quantity);
-        switch (mineral) {
-            case 1:
-                request_data = $.toJSON({"quantity":{1: quantity}});
-                break;
-            case 2:
-                request_data = $.toJSON({"quantity":{2: quantity}});
-                break;
-            case 3:
-                request_data = $.toJSON({"quantity":{3: quantity}});
-                break;
-            case 4:
-                request_data = $.toJSON({"quantity":{4: quantity}});
-                break;
-            case 5:
-                request_data = $.toJSON({"quantity":{5: quantity}});
-                break;
-            case 6:
-                request_data = $.toJSON({"quantity":{6: quantity}});
-                break;
-            case 7:
-                request_data = $.toJSON({"quantity":{7: quantity}});
-                break;
-            default:
-                console.log('Таких значений минералов не знаю:' + request_data);
-        }
+	    var stringForJson = '{"quantity":{"' + mineral + '":' + quantity + '}}';
+        request_data = $.toJSON(JSON.parse(stringForJson));
         request_url = "https://play.galaxyofdrones.com/api/movement/trade/" + building;
         requestSendPost (request_url, request_data);
     }
